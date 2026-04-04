@@ -82,6 +82,9 @@ export const translations = {
         hasAccount: "Already have an account?",
         welcomeBack: "Welcome Back",
         createAccount: "Create your health account",
+        orContinue: "Or continue with",
+        googleError: "Google sign-in failed. Please try again.",
+        googleDisabled: "Add Google Client ID to enable Google sign-in",
       },
       landing: {
         heroTitle: "Your Health, Understood & Connected",
@@ -383,6 +386,9 @@ export const translations = {
         hasAccount: "Zaten hesabınız var mı?",
         welcomeBack: "Tekrar Hoş Geldiniz",
         createAccount: "Sağlık hesabınızı oluşturun",
+        orContinue: "Veya bununla devam edin",
+        googleError: "Google ile giriş başarısız oldu. Lütfen tekrar deneyin.",
+        googleDisabled: "Google ile giriş için Google Client ID ekleyin",
       },
       landing: {
         heroTitle: "Sağlığınız, Anlaşıldı ve Bağlandı",
@@ -684,6 +690,9 @@ export const translations = {
         hasAccount: "لديك حساب بالفعل؟",
         welcomeBack: "مرحباً بعودتك",
         createAccount: "أنشئ حسابك الصحي",
+        orContinue: "أو تابع باستخدام",
+        googleError: "فشل تسجيل الدخول عبر Google. حاول مرة أخرى.",
+        googleDisabled: "أضف Google Client ID لتفعيل تسجيل الدخول عبر Google",
       },
       landing: {
         heroTitle: "صحتك، مفهومة ومتصلة",

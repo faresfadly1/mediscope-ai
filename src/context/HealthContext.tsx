@@ -46,6 +46,12 @@ interface HealthContextType {
   bookings: Booking[];
   login: (email: string, password: string) => Promise<void>;
   signUp: (email: string, fullName: string, role: UserRole) => Promise<void>;
+  loginWithGoogle: (profile: {
+    email: string;
+    fullName: string;
+    googleId: string;
+    photo?: string;
+  }, role?: UserRole) => Promise<void>;
   logout: () => void;
   updateDoctorProfile: (profile: Partial<DoctorProfile>) => void;
   bookAppointment: (booking: Omit<Booking, 'id' | 'status'>) => void;
@@ -157,6 +163,56 @@ export const HealthProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     }
   };
 
+  const loginWithGoogle = async (
+    profile: { email: string; fullName: string; googleId: string; photo?: string },
+    role: UserRole = 'patient'
+  ) => {
+    const isDoctorEmail = profile.email.includes('doctor');
+    const resolvedRole = isDoctorEmail ? 'doctor' : role;
+    const resolvedId = resolvedRole === 'doctor' ? 'u2' : profile.googleId;
+
+    const googleUser: User = {
+      id: resolvedId,
+      email: profile.email,
+      fullName: resolvedRole === 'doctor' && isDoctorEmail ? 'Dr. Sarah Johnson' : profile.fullName,
+      role: resolvedRole,
+    };
+
+    setUser(googleUser);
+
+    if (resolvedRole === 'doctor') {
+      setDoctors(prev => {
+        const existing = prev.find(doctor => doctor.userId === googleUser.id || doctor.fullName === googleUser.fullName);
+        if (existing) {
+          return prev.map(doctor =>
+            doctor.userId === existing.userId
+              ? { ...doctor, userId: googleUser.id, fullName: googleUser.fullName, photo: profile.photo || doctor.photo }
+              : doctor
+          );
+        }
+
+        return [
+          ...prev,
+          {
+            id: Math.random().toString(36).substr(2, 9),
+            userId: googleUser.id,
+            fullName: googleUser.fullName,
+            photo: profile.photo || '',
+            specialty: 'Internal Medicine',
+            bio: '',
+            clinicAddress: '',
+            price: 100,
+            consultationTypes: ['clinic'],
+            availableDays: [],
+            availableTimeSlots: [],
+            languages: ['English'],
+            isPublished: false,
+          },
+        ];
+      });
+    }
+  };
+
   const logout = () => setUser(null);
 
   const updateDoctorProfile = (profile: Partial<DoctorProfile>) => {
@@ -179,6 +235,7 @@ export const HealthProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       bookings, 
       login, 
       signUp, 
+      loginWithGoogle,
       logout, 
       updateDoctorProfile, 
       bookAppointment 
