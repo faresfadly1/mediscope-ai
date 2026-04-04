@@ -41,11 +41,14 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] text-slate-900 font-sans selection:bg-blue-100" dir={dir}>
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top,#eef7ff_0%,#f6fbff_38%,#f7fafc_100%)] text-slate-900 font-sans selection:bg-blue-100" dir={dir}>
       {/* Background Decoration */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60%] h-[60%] bg-blue-100/40 blur-[160px] rounded-full" />
-        <div className="absolute top-1/4 right-1/4 w-[30%] h-[30%] bg-emerald-100/20 blur-[120px] rounded-full" />
+        <div className="absolute inset-0 bg-[linear-gradient(115deg,rgba(255,255,255,0.65),rgba(255,255,255,0)_28%,rgba(191,219,254,0.18)_55%,rgba(255,255,255,0.42)_100%)]" />
+        <div className="absolute top-1/2 left-1/2 h-[60%] w-[60%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-100/45 blur-[180px]" />
+        <div className="absolute top-1/4 right-1/4 h-[30%] w-[30%] rounded-full bg-cyan-100/25 blur-[130px]" />
+        <div className="absolute left-[12%] top-[22%] h-56 w-56 rounded-full bg-white/45 blur-[90px]" />
+        <div className="absolute bottom-[14%] right-[10%] h-48 w-48 rounded-full bg-blue-50/55 blur-[95px]" />
       </div>
 
       <Header lang={lang} setLang={setLang} onHome={handleHome} />
@@ -53,7 +56,8 @@ export default function App() {
       <main className="relative">
         <AnimatePresence mode="wait">
           {currentView === 'auth' && (
-            <motion.div key="auth" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="pt-20">
+            <motion.div key="auth" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="relative pt-20">
+              <div className="pointer-events-none absolute inset-x-0 top-24 mx-auto h-[32rem] max-w-2xl rounded-full bg-white/35 blur-3xl" />
               <AuthForm lang={lang} />
             </motion.div>
           )}
