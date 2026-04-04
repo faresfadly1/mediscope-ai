@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { useHealth, UserRole } from '../context/HealthContext';
 import { Language, translations } from '../utils/translations';
 import { Mail, Lock, User, UserCircle, Stethoscope } from 'lucide-react';
@@ -10,54 +10,13 @@ interface AuthFormProps {
 }
 
 export default function AuthForm({ lang, initialRole }: AuthFormProps) {
-  const { login, signUp, loginWithGoogle } = useHealth();
+  const { login, signUp } = useHealth();
   const t = translations[lang].ui.auth;
   const [isSignUp, setIsSignUp] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
   const [role, setRole] = useState<UserRole>(initialRole || 'patient');
-  const [googleError, setGoogleError] = useState('');
-  const googleButtonRef = useRef<HTMLDivElement>(null);
-  const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-
-  useEffect(() => {
-    if (!googleClientId || !window.google?.accounts.id || !googleButtonRef.current) {
-      return;
-    }
-
-    googleButtonRef.current.innerHTML = '';
-
-    window.google.accounts.id.initialize({
-      client_id: googleClientId,
-      callback: async ({ credential }) => {
-        try {
-          const payload = JSON.parse(atob(credential.split('.')[1])) as GoogleJwtPayload;
-          await loginWithGoogle(
-            {
-              email: payload.email,
-              fullName: payload.name,
-              googleId: payload.sub,
-              photo: payload.picture,
-            },
-            role
-          );
-          setGoogleError('');
-        } catch (error) {
-          console.error('Google sign-in failed', error);
-          setGoogleError(t.googleError);
-        }
-      },
-    });
-
-    window.google.accounts.id.renderButton(googleButtonRef.current, {
-      theme: 'outline',
-      size: 'large',
-      shape: 'pill',
-      text: isSignUp ? 'signup_with' : 'signin_with',
-      width: '320',
-    });
-  }, [googleClientId, isSignUp, loginWithGoogle, role, t.googleError]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -160,37 +119,6 @@ export default function AuthForm({ lang, initialRole }: AuthFormProps) {
         >
           {isSignUp ? t.signUp : t.signIn}
         </motion.button>
-
-        <div className="pt-2">
-          <div className="relative my-6">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-slate-200" />
-            </div>
-            <div className="relative flex justify-center">
-              <span className="bg-white px-4 text-xs font-black uppercase tracking-[0.2em] text-slate-400">
-                {t.orContinue}
-              </span>
-            </div>
-          </div>
-
-          {googleClientId ? (
-            <div className="flex justify-center">
-              <div ref={googleButtonRef} />
-            </div>
-          ) : (
-            <button
-              type="button"
-              disabled
-              className="w-full py-4 rounded-2xl border border-slate-200 bg-slate-50 text-slate-400 font-bold"
-            >
-              {t.googleDisabled}
-            </button>
-          )}
-
-          {googleError && (
-            <p className="mt-3 text-center text-sm font-semibold text-rose-500">{googleError}</p>
-          )}
-        </div>
       </form>
     </div>
   );
