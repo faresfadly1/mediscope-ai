@@ -1,0 +1,5 @@
+{
+  "name": "MedScan AI Assistant",
+  "description": "A medical document understanding assistant that analyzes lab reports and prescriptions alongside lifestyle data to provide health insights.",
+  "requestFramePermissions": []
+}
