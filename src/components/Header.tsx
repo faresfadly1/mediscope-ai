@@ -1,7 +1,7 @@
 import React from 'react';
 import { Language, translations } from '../utils/translations';
 import { useHealth } from '../context/HealthContext';
-import { LogOut, Globe, ShieldCheck, UserCircle, Stethoscope } from 'lucide-react';
+import { LogOut, Globe, UserCircle, Stethoscope } from 'lucide-react';
 import { motion } from 'motion/react';
 
 interface HeaderProps {
@@ -13,6 +13,7 @@ interface HeaderProps {
 export default function Header({ lang, setLang, onHome }: HeaderProps) {
   const { user, logout } = useHealth();
   const t = translations[lang].ui;
+  const logoSrc = `${import.meta.env.BASE_URL}mediscope-logo.png`;
 
   return (
     <header className="sticky top-0 z-40 w-full bg-white/90 backdrop-blur-md border-b border-slate-50 px-8 py-5">
@@ -21,10 +22,11 @@ export default function Header({ lang, setLang, onHome }: HeaderProps) {
           onClick={onHome}
           className="flex items-center gap-3 group"
         >
-          <div className="w-12 h-12 rounded-2xl bg-blue-600 flex items-center justify-center text-white shadow-xl shadow-blue-200 group-hover:scale-105 transition-transform">
-            <ShieldCheck className="w-7 h-7" />
-          </div>
-          <span className="text-2xl font-black text-slate-900 tracking-tight">{t.appName}</span>
+          <img
+            src={logoSrc}
+            alt={t.appName}
+            className="h-16 w-auto object-contain transition-transform group-hover:scale-[1.02]"
+          />
         </button>
 
         <div className="flex items-center gap-6">
