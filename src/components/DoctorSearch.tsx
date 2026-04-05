@@ -46,7 +46,7 @@ export default function DoctorSearch({ lang, onBook, onBack }: DoctorSearchProps
   ];
 
   return (
-    <div className="max-w-6xl mx-auto px-6 py-12 space-y-12">
+    <div className="mx-auto max-w-6xl space-y-8 px-4 py-8 sm:px-6 sm:py-10 md:space-y-12 md:py-12">
       <div className="flex items-center justify-between">
         <button 
           onClick={onBack}
@@ -57,23 +57,23 @@ export default function DoctorSearch({ lang, onBook, onBack }: DoctorSearchProps
         </button>
       </div>
       <div className="space-y-8">
-        <div className="flex flex-col md:flex-row gap-6">
+        <div className="flex flex-col gap-4 md:flex-row md:gap-6">
           <div className="flex-1 relative">
-            <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-6 h-6 text-slate-400" />
+            <Search className="absolute left-5 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400 sm:left-6 sm:h-6 sm:w-6" />
             <input
               type="text"
               placeholder={t.searchPlaceholder}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-16 pr-6 py-5 bg-white border border-slate-100 rounded-[2rem] shadow-xl shadow-slate-200/50 focus:ring-2 focus:ring-blue-500 outline-none transition-all font-medium text-lg"
+              className="w-full rounded-[1.5rem] border border-slate-100 bg-white py-4 pl-14 pr-5 text-base font-medium shadow-xl shadow-slate-200/50 outline-none transition-all focus:ring-2 focus:ring-blue-500 sm:rounded-[2rem] sm:py-5 sm:pl-16 sm:pr-6 sm:text-lg"
             />
           </div>
-          <div className="flex items-center gap-4 overflow-x-auto pb-4 md:pb-0 no-scrollbar">
+          <div className="flex items-center gap-3 overflow-x-auto pb-2 md:gap-4 md:pb-0 no-scrollbar">
             {specialtyList.slice(0, 6).map((spec) => (
               <button
                 key={spec.id}
                 onClick={() => setSelectedSpecialty(spec.id)}
-                className={`px-6 py-4 rounded-2xl font-bold whitespace-nowrap transition-all border-2 ${
+                className={`whitespace-nowrap rounded-2xl border-2 px-4 py-3 text-sm font-bold transition-all sm:px-6 sm:py-4 ${
                   selectedSpecialty === spec.id 
                     ? 'bg-blue-600 text-white border-blue-600 shadow-lg shadow-blue-200' 
                     : 'bg-white text-slate-500 border-slate-100 hover:border-blue-200'
@@ -86,25 +86,25 @@ export default function DoctorSearch({ lang, onBook, onBack }: DoctorSearchProps
         </div>
       </div>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid gap-5 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
         {filteredDoctors.map((doctor) => (
           <motion.div
             key={doctor.id}
             whileHover={{ y: -8 }}
-            className="p-8 rounded-[2.5rem] bg-white border border-slate-100 shadow-xl shadow-slate-200/50 space-y-6 group"
+            className="group space-y-5 rounded-[2rem] border border-slate-100 bg-white p-5 shadow-xl shadow-slate-200/50 sm:p-6 md:rounded-[2.5rem] md:p-8"
           >
-            <div className="flex items-center gap-4">
+            <div className="flex items-start gap-4">
               {doctor.photo ? (
-                <img src={doctor.photo} alt={doctor.fullName} className="w-20 h-20 rounded-2xl object-cover" />
+                <img src={doctor.photo} alt={doctor.fullName} className="h-16 w-16 rounded-2xl object-cover sm:h-20 sm:w-20" />
               ) : (
-                <div className="w-20 h-20 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600">
-                  <UserCircle className="w-10 h-10" />
+                <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-blue-50 text-blue-600 sm:h-20 sm:w-20">
+                  <UserCircle className="h-8 w-8 sm:h-10 sm:w-10" />
                 </div>
               )}
-              <div className="space-y-1">
-                <h3 className="text-xl font-black text-slate-900">{doctor.fullName}</h3>
-                <p className="text-blue-600 font-bold flex items-center gap-1">
-                  <Stethoscope className="w-4 h-4" />
+              <div className="min-w-0 space-y-1">
+                <h3 className="text-lg font-black text-slate-900 sm:text-xl">{doctor.fullName}</h3>
+                <p className="flex items-center gap-1 text-sm font-bold text-blue-600 sm:text-base">
+                  <Stethoscope className="h-4 w-4" />
                   {doctor.specialty}
                 </p>
               </div>
@@ -131,14 +131,14 @@ export default function DoctorSearch({ lang, onBook, onBack }: DoctorSearchProps
               </div>
             </div>
 
-            <div className="pt-6 border-t border-slate-50 flex items-center justify-between">
+              <div className="flex items-center justify-between border-t border-slate-50 pt-5 sm:pt-6">
               <div>
                 <p className="text-xs font-black text-slate-400 uppercase tracking-widest">{t.consultationPrice}</p>
-                <p className="text-2xl font-black text-slate-900">${doctor.price}</p>
+                <p className="text-xl font-black text-slate-900 sm:text-2xl">${doctor.price}</p>
               </div>
               <button 
                 onClick={() => onBook(doctor)}
-                className="px-6 py-4 bg-blue-600 text-white rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-blue-700 transition-all shadow-lg shadow-blue-100"
+                className="rounded-2xl bg-blue-600 px-4 py-3 text-xs font-black uppercase tracking-widest text-white shadow-lg shadow-blue-100 transition-all hover:bg-blue-700 sm:px-6 sm:py-4 sm:text-sm"
               >
                 {t.bookNow}
               </button>
