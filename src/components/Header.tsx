@@ -3,6 +3,7 @@ import { Language, translations } from '../utils/translations';
 import { useHealth } from '../context/HealthContext';
 import { LogOut, Globe, UserCircle, Stethoscope } from 'lucide-react';
 import { motion } from 'motion/react';
+import mediscopeLogo from '../assets/mediscope-logo.png';
 
 interface HeaderProps {
   lang: Language;
@@ -13,7 +14,6 @@ interface HeaderProps {
 export default function Header({ lang, setLang, onHome }: HeaderProps) {
   const { user, logout } = useHealth();
   const t = translations[lang].ui;
-  const logoSrc = `${import.meta.env.BASE_URL}mediscope-logo.png`;
 
   return (
     <header className="sticky top-0 z-40 w-full bg-white/90 backdrop-blur-md border-b border-slate-50 px-8 py-5">
@@ -23,7 +23,7 @@ export default function Header({ lang, setLang, onHome }: HeaderProps) {
           className="flex items-center gap-3 group"
         >
           <img
-            src={logoSrc}
+            src={mediscopeLogo}
             alt={t.appName}
             className="h-16 w-auto object-contain transition-transform group-hover:scale-[1.02]"
           />
